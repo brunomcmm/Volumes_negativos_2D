@@ -55,7 +55,7 @@ def save_mesh_plot_by_materials(file_path, output_path):
 
     # Adicionar legenda
     legend_handles = [
-        plt.Line2D([0], [0], color=material_colors[material_id], lw=4, label=f'Material {material_id}')
+        plt.Line2D([0], [0], color=material_colors[material_id], lw=4, label=f'Material {material_id - 300}')
         for material_id in sorted(material_colors.keys())
     ]
     ax.legend(handles=legend_handles, loc='upper right', title='Materiais')
