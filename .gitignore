@@ -17,3 +17,12 @@ Thumbs.db
 X.msh
 Y.msh
 
+# Ignorar todas as imagens PNG geradas
+*.png
+
+# Ignorar todos os arquivos corrigidos
+*_corrigido.msh
+
+# Ignorar o arquivo específico tentTH.m
+tentTH.m
+
