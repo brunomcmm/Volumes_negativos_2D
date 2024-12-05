@@ -53,13 +53,22 @@ def save_mesh_plot_by_materials(file_path, output_path):
     ax.set_xlim(min(x_coords), max(x_coords))
     ax.set_ylim(min(y_coords), max(y_coords))
 
-    # Adicionar legenda
+    # Adicionar legenda abaixo do gráfico
     legend_handles = [
         plt.Line2D([0], [0], color=material_colors[material_id], lw=4, label=f'Material {material_id - 300}')
         for material_id in sorted(material_colors.keys())
     ]
-    ax.legend(handles=legend_handles, loc='upper right', title='Materiais')
+    ax.legend(
+        handles=legend_handles, 
+        loc='upper center', 
+        bbox_to_anchor=(0.5, -0.1),  # Posicionar abaixo do gráfico
+        ncol=len(legend_handles),  # Colocar todos os itens em uma linha
+        title='Materiais'
+    )
+
+    # Ajustar layout tight para acomodar a legenda
+    plt.tight_layout(rect=[0, 0, 1, 0.9])  # Reservar espaço para a legenda abaixo
 
     # Salvar o gráfico como imagem
-    plt.savefig(output_path, dpi=300)  # Salvar com alta resolução
+    plt.savefig(output_path, dpi=150)  # Salvar com alta resolução
     plt.close(fig)  # Fechar a figura para liberar memória

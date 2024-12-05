@@ -21,16 +21,20 @@ def gerar_imagem_async(file_path, output_path, queue):
     except Exception as e:
         queue.put(f"Erro ao gerar a imagem da malha: {e}")
 
-def process_gerar_imagem(file_path, window):
+def process_gerar_imagem(file_path, app):
     """
     Gera uma imagem da malha em um processo separado e atualiza a interface.
-    
+
     Args:
         file_path (str): Caminho para o arquivo .msh.
-        window (sg.Window): Janela da interface gráfica.
+        app (GMSHApp): Instância da interface gráfica para exibir mensagens.
     """
     output_path = file_path.replace('.msh', '_materiais.png')  # Caminho para salvar a imagem
     queue = multiprocessing.Queue()  # Fila para comunicação entre processos
+
+    # Informar início do processo
+    app.log_message("Gerando imagem da malha...\n")
+    app.log_message(f"Arquivo de entrada: {file_path}\n")
 
     # Criar e iniciar o processo
     process = multiprocessing.Process(target=gerar_imagem_async, args=(file_path, output_path, queue))
@@ -40,11 +44,12 @@ def process_gerar_imagem(file_path, window):
     while True:
         if not queue.empty():
             message = queue.get()
-            window['-OUTPUT-'].update(f"{message}\n", append=True)
+            app.log_message(f"{message}\n")
 
+            # Encerrar o processo se a mensagem for de conclusão ou erro
             if "Erro" in message or "salva em" in message:
                 process.terminate()
-                return
+                break
 
         if not process.is_alive():
             break
