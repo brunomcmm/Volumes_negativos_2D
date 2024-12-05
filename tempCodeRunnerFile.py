@@ -1,1 +1,0 @@
-Erro ao processar a geração de imagem:
